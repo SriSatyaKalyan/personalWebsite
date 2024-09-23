@@ -1,10 +1,33 @@
 h1,
-body {
+body,
+section {
+	background-color: #7299a5;
 	font-family: "Roboto Mono", sans-serif;
 }
 
+/* div {
+	font-family: "Roboto Mono", sans-serif;
+} */
+#mainNavbar {
+	font-size: 1rem;
+}
+
+#mainNavbar .nav-link {
+	color: aquamarine;
+}
+
+#mainNavbar .nav-link:hover {
+	color: rgba(142, 156, 185, 0.756);
+}
+
+#mainNavbar .navbar-brand {
+	color: #ea1c2c;
+	font-size: 1.5rem;
+}
+
 .footer_class {
-	font-family: Georgia, "Times New Roman", Times, serif;
+	/* font-family: Georgia, "Times New Roman", Times, serif; */
+	font-family: "Roboto Mono", sans-serif;
 	font-size: large;
 	background-color: aqua;
 }
@@ -13,8 +36,5 @@ body {
 	width: 400px;
 	min-height: 250px;
 	float: left;
-	/* margin: 5px; */
 	object-fit: cover;
-	/* overflow: hidden; */
-} 
-*/
+} */
