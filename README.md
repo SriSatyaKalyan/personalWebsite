@@ -4,6 +4,7 @@
 
 - [ ] Home Page
   - [ ] Add Bootstrap icons
+  - [ ] In the kalyan/kallepalli text, have them alternate between avid/reader (or) aspiring/screenwriter as they flip into other text, instead of hardcoding them below that h2 text
 - [ ] Photography Page
 - [ ] Books Page
   - [ ] Would be a responsive grid

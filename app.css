@@ -9,7 +9,7 @@ section {
 	font-family: "Roboto Mono", sans-serif;
 } */
 #mainNavbar {
-	font-size: 1rem;
+	font-size: 1.5rem;
 }
 
 #mainNavbar .nav-link {
@@ -29,8 +29,12 @@ section {
 	/* font-family: Georgia, "Times New Roman", Times, serif; */
 	font-family: "Roboto Mono", sans-serif;
 	font-size: large;
-	background-color: aqua;
+	background-color: rgb(77, 85, 105);
 }
+
+/* footer.div {
+	color: rgb(199, 8, 148);
+} */
 
 /* img {
 	width: 400px;
