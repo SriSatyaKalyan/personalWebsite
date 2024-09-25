@@ -5,6 +5,13 @@ section {
 	font-family: "Roboto Mono", sans-serif;
 }
 
+h2#projects {
+	background-color: rgb(175, 118, 48);
+}
+
+#book_section {
+	background-color: rgb(163, 128, 83);
+}
 /* div {
 	font-family: "Roboto Mono", sans-serif;
 } */
