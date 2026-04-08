@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useReadwise } from '../hooks/useReadwise'
 import { useUnsplash } from '../hooks/useUnsplash'
 import { useBookCovers } from '../hooks/useBookCovers'
+import { useMovieShelf } from '../hooks/useMovieShelf'
 import { songs, getSongCover } from '../data/songs'
 import './Passions.css'
 
@@ -252,10 +253,6 @@ function BookshelfWidget() {
           {/* Currently Reading */}
           {reading.length > 0 && (
             <>
-              <div className="passions__book-group-label">
-                <span className="passions__book-group-dot passions__book-group-dot--reading" />
-                Currently Reading
-              </div>
               {reading.map(book => (
                 <a
                   key={book.title}
@@ -284,10 +281,6 @@ function BookshelfWidget() {
           {/* Recently Read */}
           {read.length > 0 && (
             <>
-              <div className="passions__book-group-label">
-                <span className="passions__book-group-dot passions__book-group-dot--read" />
-                Recently Read
-              </div>
               {read.map(book => (
                 <a
                   key={book.title}
@@ -309,6 +302,85 @@ function BookshelfWidget() {
                 </a>
               ))}
             </>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* ── Movie / show shelf widget ───────────────────────────────────── */
+function MovieCard({ item }: { item: import('../hooks/useMovieShelf').MovieCard }) {
+  return (
+    <a
+      href={item.linkUrl}
+      target="_blank"
+      rel="noreferrer"
+      className="passions__book-card"
+    >
+      {item.posterUrl
+        ? <img src={item.posterUrl} alt={item.title} className="passions__book-cover" loading="lazy" />
+        : <div className="passions__book-cover passions__book-cover--placeholder">
+            <span>{item.title}</span>
+          </div>
+      }
+      <div className="passions__book-meta">
+        <span className="passions__book-title">{item.title}</span>
+        <span className="passions__book-author">
+          {item.year}{item.rating ? ` · ${item.rating}` : ''}
+        </span>
+      </div>
+      {item.status === 'watching' && (
+        <span className="passions__book-badge passions__book-badge--reading">Watching</span>
+      )}
+    </a>
+  )
+}
+
+function MovieshelfWidget() {
+  const { watching, watched, loading } = useMovieShelf()
+  const letterboxdUser = import.meta.env.VITE_LETTERBOXD_USERNAME as string | undefined
+
+  return (
+    <div className="passions__widget passions__widget--full">
+      <div className="passions__widget-header">
+        <FilmIcon />
+        <span className="passions__widget-title">Movies &amp; Shows</span>
+        {letterboxdUser && (
+          <a
+            href={`https://letterboxd.com/${letterboxdUser}`}
+            target="_blank"
+            rel="noreferrer"
+            className="passions__unsplash-link"
+          >
+            {letterboxdUser} on Letterboxd ↗
+          </a>
+        )}
+      </div>
+
+      {loading && (
+        <div className="passions__book-skeleton-row">
+          {Array.from({ length: 7 }).map((_, i) => (
+            <div key={i} className="passions__book-skeleton" />
+          ))}
+        </div>
+      )}
+
+      {!loading && (
+        <div className="passions__book-strip">
+          {/* Currently watching */}
+          {watching.length > 0 && (
+            <>
+              {watching.map(item => <MovieCard key={item.title} item={item} />)}
+              {watched.length > 0 && <div className="passions__book-divider" />}
+            </>
+          )}
+          {/* Recently watched from Letterboxd */}
+          {watched.map(item => <MovieCard key={item.linkUrl} item={item} />)}
+          {!letterboxdUser && watched.length === 0 && (
+            <p className="passions__error">
+              Add <code>VITE_LETTERBOXD_USERNAME</code> to your <code>.env</code> to show recently watched films.
+            </p>
           )}
         </div>
       )}
@@ -339,6 +411,7 @@ export default function Passions() {
 
         <UnsplashWidget />
         <BookshelfWidget />
+        <MovieshelfWidget />
       </div>
     </section>
   )
@@ -360,6 +433,21 @@ function ReadwiseIcon() {
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
       <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+    </svg>
+  )
+}
+
+function FilmIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/>
+      <line x1="7" y1="2"  x2="7"  y2="22"/>
+      <line x1="17" y1="2" x2="17" y2="22"/>
+      <line x1="2" y1="12" x2="22" y2="12"/>
+      <line x1="2" y1="7"  x2="7"  y2="7"/>
+      <line x1="2" y1="17" x2="7"  y2="17"/>
+      <line x1="17" y1="17" x2="22" y2="17"/>
+      <line x1="17" y1="7"  x2="22" y2="7"/>
     </svg>
   )
 }

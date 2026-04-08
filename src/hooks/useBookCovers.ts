@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { books, type Book } from "../data/books";
 
-const CACHE_KEY = "book_covers_v1";
-const CACHE_TTL = 1 * 60 * 1000; // 1 minute (temporary — for testing)
-// const CACHE_TTL = 24 * 60 * 60 * 1000 // 24 hours — covers rarely change
+const CACHE_KEY = "book_covers_v2";
+const CACHE_TTL = 7 * 24 * 60 * 60 * 1000; // 7 days — covers rarely change
 
+function bookListHash(bookList: Book[]): string {
+	return bookList.map(b => `${b.title}|${b.author}|${b.status}`).join(',')
+}
 export interface BookWithCover extends Book {
 	coverUrl: string | null;
 	openLibraryKey: string | null;
@@ -40,15 +42,17 @@ export function useBookCovers() {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
+		const hash = bookListHash(books)
 		// Try cache first
 		try {
 			const raw = localStorage.getItem(CACHE_KEY);
 			if (raw) {
-				const { data, ts } = JSON.parse(raw) as {
+				const { data, ts, hash: cachedHash } = JSON.parse(raw) as {
 					data: BookWithCover[];
 					ts: number;
+					hash: string;
 				};
-				if (Date.now() - ts < CACHE_TTL) {
+				if (Date.now() - ts < CACHE_TTL && cachedHash === hash) {
 					setBooksWithCovers(data);
 					setLoading(false);
 					return;
@@ -65,7 +69,7 @@ export function useBookCovers() {
 			try {
 				localStorage.setItem(
 					CACHE_KEY,
-					JSON.stringify({ data: results, ts: Date.now() }),
+					JSON.stringify({ data: results, ts: Date.now(), hash }),
 				);
 			} catch {
 				/* storage full */

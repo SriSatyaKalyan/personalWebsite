@@ -523,8 +523,8 @@
 	align-items: center;
 	gap: 0.4rem;
 	flex-shrink: 0;
-	writing-mode: vertical-rl;
-	text-orientation: mixed;
+	writing-mode: vertical-lr;
+	text-orientation: upright;
 	font-size: 0.65rem;
 	font-weight: 700;
 	letter-spacing: 0.12em;
