@@ -59,9 +59,18 @@
   font-size: 1.15rem;
   font-weight: 700;
   letter-spacing: 0.06em;
+  overflow: hidden;
   transition: color var(--transition-fast), transform var(--transition-fast);
 }
 .header__logo:hover { transform: scale(1.07); }
+
+.header__logo-track {
+  display: flex;
+}
+
+.header__logo-char {
+  display: inline-block;
+}
 
 .header--about   .header__logo { color: var(--about-accent-light); }
 .header--work    .header__logo { color: var(--work-accent-light); }
