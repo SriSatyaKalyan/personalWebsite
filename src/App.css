@@ -1,0 +1,29 @@
+.app {
+  min-height: 100vh;
+  transition: background 0.6s ease;
+}
+
+.app__main {
+  min-height: 100vh;
+  will-change: opacity, transform;
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease;
+}
+
+.app__main--exit {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.app__main--enter {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Shared section base */
+.section {
+  min-height: 100vh;
+  overflow-y: auto;
+  padding-bottom: 44px; /* footer height */
+}
