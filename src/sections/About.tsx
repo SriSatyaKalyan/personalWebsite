@@ -23,7 +23,7 @@ export default function About() {
       <div className="about__container">
         {/* Hero */}
         <div className="about__hero">
-          <div className="about__badge">Based in the United States</div>
+          <div className="about__badge">Based in US. From India.</div>
           <h1 className="about__name">
             {/* Sri Satya<br /> */}
             <span className="about__name-accent">Kalyan Kallepalli</span>
