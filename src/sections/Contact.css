@@ -104,9 +104,16 @@
   box-shadow: 0 4px 30px rgba(249, 115, 22, 0.15);
 }
 .contact__link-icon {
-  color: var(--contact-accent-light);
-  flex-shrink: 0;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(249, 115, 22, 0.1);
+  border: 1px solid rgba(249, 115, 22, 0.22);
+  color: var(--contact-accent-light);
 }
 .contact__link-info {
   display: flex;

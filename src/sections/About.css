@@ -133,11 +133,9 @@
 .about__cta--primary {
   background: var(--about-accent);
   color: #fff;
-  box-shadow: 0 4px 20px rgba(224, 48, 48, 0.4);
 }
 .about__cta--primary:hover {
   background: var(--about-accent-muted);
-  box-shadow: 0 6px 28px rgba(224, 48, 48, 0.55);
 }
 .about__cta--secondary {
   background: transparent;
