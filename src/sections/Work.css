@@ -240,9 +240,38 @@
 	margin-top: 2rem;
 }
 
-/* Skills section spacing inside Work page */
+/* ── Tech Stack (Work page overrides) ─────────────────────────── */
 .work__container .about__skills-section {
-	margin-top: 1.5rem;
+	margin-top: 2.5rem;
+	padding-top: 2rem;
+	border-top: 1px solid rgba(147, 51, 234, 0.18);
+}
+
+/* Sub-heading: visible but smaller than "Selected Work" h2 */
+.work__container .about__section-title {
+	font-size: 1.4rem;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	text-transform: none;
+	color: var(--work-text);
+	margin-bottom: 1.4rem;
+}
+
+/* Tags: match Work section purple theme */
+.work__container .about__skill-tag {
+	font-size: 0.82rem;
+	font-weight: 500;
+	padding: 0.4rem 1rem;
+	background: rgba(147, 51, 234, 0.08);
+	border: 1px solid rgba(147, 51, 234, 0.25);
+	color: var(--work-text-muted);
+	border-radius: 8px;
+	transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+.work__container .about__skill-tag:hover {
+	background: rgba(147, 51, 234, 0.18);
+	border-color: rgba(147, 51, 234, 0.55);
+	color: var(--work-text);
 }
 
 /* ── GitHub Activity Widget ────────────────────────────────────── */

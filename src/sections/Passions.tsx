@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useReadwise } from '../hooks/useReadwise'
 import { useUnsplash } from '../hooks/useUnsplash'
+import { useBookCovers } from '../hooks/useBookCovers'
 import { songs, getSongCover } from '../data/songs'
 import './Passions.css'
 
@@ -227,6 +228,94 @@ function UnsplashWidget() {
   )
 }
 
+/* ── Bookshelf widget ────────────────────────────────────────────── */
+function BookshelfWidget() {
+  const { reading, read, loading } = useBookCovers()
+
+  return (
+    <div className="passions__widget passions__widget--full">
+      <div className="passions__widget-header">
+        <BookIcon />
+        <span className="passions__widget-title">My Bookshelf</span>
+      </div>
+
+      {loading && (
+        <div className="passions__book-skeleton-row">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="passions__book-skeleton" />
+          ))}
+        </div>
+      )}
+
+      {!loading && (
+        <div className="passions__book-strip">
+          {/* Currently Reading */}
+          {reading.length > 0 && (
+            <>
+              <div className="passions__book-group-label">
+                <span className="passions__book-group-dot passions__book-group-dot--reading" />
+                Currently Reading
+              </div>
+              {reading.map(book => (
+                <a
+                  key={book.title}
+                  href={book.openLibraryKey ? `https://openlibrary.org${book.openLibraryKey}` : '#'}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="passions__book-card"
+                >
+                  {book.coverUrl
+                    ? <img src={book.coverUrl} alt={book.title} className="passions__book-cover" loading="lazy" />
+                    : <div className="passions__book-cover passions__book-cover--placeholder">
+                        <span>{book.title}</span>
+                      </div>
+                  }
+                  <div className="passions__book-meta">
+                    <span className="passions__book-title">{book.title}</span>
+                    <span className="passions__book-author">{book.author}</span>
+                  </div>
+                  <span className="passions__book-badge passions__book-badge--reading">Reading</span>
+                </a>
+              ))}
+              {read.length > 0 && <div className="passions__book-divider" />}
+            </>
+          )}
+
+          {/* Recently Read */}
+          {read.length > 0 && (
+            <>
+              <div className="passions__book-group-label">
+                <span className="passions__book-group-dot passions__book-group-dot--read" />
+                Recently Read
+              </div>
+              {read.map(book => (
+                <a
+                  key={book.title}
+                  href={book.openLibraryKey ? `https://openlibrary.org${book.openLibraryKey}` : '#'}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="passions__book-card"
+                >
+                  {book.coverUrl
+                    ? <img src={book.coverUrl} alt={book.title} className="passions__book-cover" loading="lazy" />
+                    : <div className="passions__book-cover passions__book-cover--placeholder">
+                        <span>{book.title}</span>
+                      </div>
+                  }
+                  <div className="passions__book-meta">
+                    <span className="passions__book-title">{book.title}</span>
+                    <span className="passions__book-author">{book.author}</span>
+                  </div>
+                </a>
+              ))}
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
 /* ── Page ────────────────────────────────────────────────────────── */
 export default function Passions() {
   return (
@@ -249,6 +338,7 @@ export default function Passions() {
         </div>
 
         <UnsplashWidget />
+        <BookshelfWidget />
       </div>
     </section>
   )
@@ -270,6 +360,15 @@ function ReadwiseIcon() {
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
       <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+    </svg>
+  )
+}
+
+function BookIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
     </svg>
   )
 }

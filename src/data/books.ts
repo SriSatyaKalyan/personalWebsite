@@ -1,0 +1,31 @@
+export type BookStatus = "reading" | "read";
+
+export interface Book {
+	title: string;
+	author: string;
+	status: BookStatus;
+}
+
+export const books: Book[] = [
+	// ── Currently reading ──────────────────────────────────────────
+	{
+		title: "Braiding Sweetgrass",
+		author: "Robin Wall Kimmerer",
+		status: "reading",
+	},
+	{
+		title: "The Ministry of Time",
+		author: "Kaliane Bradley",
+		status: "reading",
+	},
+
+	// ── Recently read ──────────────────────────────────────────────
+	{ title: "The Social Animal", author: "David Brooks", status: "read" },
+	{ title: "The Midnight Library", author: "Matt Haig", status: "read" },
+	{
+		title: "The Pragmatic Programmer",
+		author: "David Thomas",
+		status: "read",
+	},
+	{ title: "Dune", author: "Frank Herbert", status: "read" },
+];
