@@ -28,6 +28,16 @@
   --work-text-muted: #d8b4fe;
   --work-border: rgba(147, 51, 234, 0.25);
 
+  /* Passions — Light Blue palette */
+  --passions-bg: #020c14;
+  --passions-surface: #061826;
+  --passions-accent: #38bdf8;
+  --passions-accent-light: #7dd3fc;
+  --passions-accent-muted: #bae6fd;
+  --passions-text: #f0f9ff;
+  --passions-text-muted: #bae6fd;
+  --passions-border: rgba(56, 189, 248, 0.25);
+
   /* Contact — Orange palette */
   --contact-bg: #0e0700;
   --contact-surface: #1a0d00;
@@ -58,9 +68,10 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { border-radius: 2px; }
 
-.section--about::-webkit-scrollbar-thumb  { background: var(--about-accent); }
-.section--work::-webkit-scrollbar-thumb   { background: var(--work-accent); }
-.section--contact::-webkit-scrollbar-thumb{ background: var(--contact-accent); }
+.section--about::-webkit-scrollbar-thumb    { background: var(--about-accent); }
+.section--work::-webkit-scrollbar-thumb     { background: var(--work-accent); }
+.section--passions::-webkit-scrollbar-thumb { background: var(--passions-accent); }
+.section--contact::-webkit-scrollbar-thumb  { background: var(--contact-accent); }
 
 button {
   cursor: pointer;

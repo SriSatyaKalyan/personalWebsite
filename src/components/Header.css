@@ -32,6 +32,11 @@
   border-color: var(--work-border);
   box-shadow: 0 1px 32px rgba(147, 51, 234, 0.08);
 }
+.header--passions {
+  background: rgba(2, 12, 20, 0.82);
+  border-color: var(--passions-border);
+  box-shadow: 0 1px 32px rgba(56, 189, 248, 0.08);
+}
 .header--contact {
   background: rgba(14, 7, 0, 0.82);
   border-color: var(--contact-border);
@@ -121,6 +126,16 @@
 .header--work .header__nav-indicator {
   background: var(--work-accent-light);
 }
+
+/* Passions nav */
+.header--passions .header__logo { color: var(--passions-accent-light); }
+.header--passions .header__nav-item { color: var(--passions-text-muted); }
+.header--passions .header__nav-item:hover {
+  background: rgba(56, 189, 248, 0.12);
+  color: var(--passions-text);
+}
+.header--passions .header__nav-item--active { color: var(--passions-accent-light); }
+.header--passions .header__nav-indicator    { background: var(--passions-accent-light); }
 
 /* Contact nav */
 .header--contact .header__nav-item {

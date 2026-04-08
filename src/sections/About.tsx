@@ -7,11 +7,6 @@ const SKILLS = [
   'Test Automation', 'HTML / CSS',
 ]
 
-const ACHIEVEMENTS = [
-  { icon: '🧊', label: 'Arctic Code Vault Contributor' },
-  { icon: '🦈', label: 'Pull Shark'                   },
-  { icon: '🎲', label: 'YOLO'                          },
-]
 
 export default function About() {
   return (

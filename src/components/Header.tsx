@@ -1,6 +1,6 @@
 import './Header.css'
 
-type Section = 'about' | 'work' | 'contact'
+type Section = 'about' | 'work' | 'passions' | 'contact'
 
 interface HeaderProps {
   active: Section
@@ -8,16 +8,18 @@ interface HeaderProps {
 }
 
 const NAV_ITEMS: { id: Section; label: string }[] = [
-  { id: 'about',   label: 'About'      },
-  { id: 'work',    label: 'Work'       },
-  { id: 'contact', label: 'Contact Me' },
+  { id: 'about',    label: 'About'      },
+  { id: 'work',     label: 'Work'       },
+  { id: 'passions', label: 'Passions'   },
+  { id: 'contact',  label: 'Contact Me' },
 ]
 
 export default function Header({ active, onNavigate }: HeaderProps) {
   const accentClass =
-    active === 'about'   ? 'header--about'   :
-    active === 'work'    ? 'header--work'     :
-                           'header--contact'
+    active === 'about'    ? 'header--about'    :
+    active === 'work'     ? 'header--work'     :
+    active === 'passions' ? 'header--passions' :
+                            'header--contact'
 
   return (
     <header className={`header ${accentClass} header--visible`}>

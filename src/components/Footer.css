@@ -51,6 +51,14 @@
 .footer--work .footer__text  { color: var(--work-text-muted); }
 .footer--work .footer__heart { color: var(--work-accent-light); }
 
+/* Passions */
+.footer--passions {
+  background: rgba(2, 12, 20, 0.72);
+  border-color: var(--passions-border);
+}
+.footer--passions .footer__text  { color: var(--passions-text-muted); }
+.footer--passions .footer__heart { color: var(--passions-accent-light); }
+
 /* Contact */
 .footer--contact {
   background: rgba(14, 7, 0, 0.72);
