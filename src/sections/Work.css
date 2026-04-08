@@ -40,7 +40,7 @@
   z-index: 1;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 120px 2rem 100px;
+  padding: 120px 2rem 140px;
 }
 
 /* Header */
@@ -78,7 +78,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3.5rem;
 }
 @media (max-width: 900px) {
   .work__grid { grid-template-columns: 1fr 1fr; }
@@ -212,6 +212,11 @@
   background: rgba(147, 51, 234, 0.12);
   color: var(--work-accent-light);
   border: 1px solid rgba(147, 51, 234, 0.2);
+}
+
+/* GitHub / LinkedIn row inside Work page */
+.work__container .about__cta-row {
+  margin-top: 3.5rem;
 }
 
 /* ── Grafana banner ────────────────────────────────────────────── */
