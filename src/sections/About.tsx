@@ -1,13 +1,6 @@
 
 import './About.css'
 
-const SKILLS = [
-  'TypeScript', 'JavaScript', 'Java', 'React', 'Node.js',
-  'Playwright', 'Selenium', 'REST APIs', 'CI/CD', 'Git',
-  'Test Automation', 'HTML / CSS',
-]
-
-
 export default function About() {
   return (
     <section className="section section--about">
@@ -30,16 +23,6 @@ export default function About() {
             crafted robust frameworks, hunted edge cases, and worked towards ensuring every line of
             code ships with confidence.
           </p>
-        </div>
-
-        {/* Skills */}
-        <div className="about__skills-section">
-          <h2 className="about__section-title">Tech Stack</h2>
-          <div className="about__skills-grid">
-            {SKILLS.map(skill => (
-              <span key={skill} className="about__skill-tag">{skill}</span>
-            ))}
-          </div>
         </div>
 
         {/* GitHub achievements */}

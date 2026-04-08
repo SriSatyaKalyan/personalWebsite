@@ -1,92 +1,75 @@
-import { useState, useEffect } from 'react'
-import { useSpotify }  from '../hooks/useSpotify'
+import { useState, useEffect, useRef } from 'react'
 import { useReadwise } from '../hooks/useReadwise'
+import { songs, getSongCover } from '../data/songs'
 import './Passions.css'
 
-/* ── Spotify widget ──────────────────────────────────────────────── */
-function SpotifyWidget() {
-  const { tracks, loading, error } = useSpotify()
+/* ── YouTube music widget ────────────────────────────────────────── */
+function YoutubeWidget() {
+  const [playingId, setPlayingId] = useState<string | null>(null)
+  const iframeRef = useRef<HTMLIFrameElement>(null)
+
+  function toggleSong(id: string) {
+    if (playingId === id) {
+      // Pause via YouTube postMessage API
+      iframeRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }),
+        '*'
+      )
+      setPlayingId(null)
+    } else {
+      setPlayingId(id)
+    }
+  }
 
   return (
     <div className="passions__widget">
       <div className="passions__widget-header">
-        <SpotifyIcon />
-        <span className="passions__widget-title">Top 5 Right Now</span>
+        <MusicIcon />
+        <span className="passions__widget-title">What I'm Listening To</span>
       </div>
 
-      {loading && (
-        <div className="passions__skeleton-list">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="passions__skeleton-row">
-              <div className="passions__skeleton passions__skeleton--art" />
-              <div className="passions__skeleton-lines">
-                <div className="passions__skeleton passions__skeleton--title" />
-                <div className="passions__skeleton passions__skeleton--sub" />
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      {/* Hidden YouTube player — always in the DOM so it never shifts layout */}
+      <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>
+        {playingId && (
+          <iframe
+            key={playingId}
+            ref={iframeRef}
+            src={`https://www.youtube.com/embed/${playingId}?autoplay=1&enablejsapi=1&controls=0`}
+            allow="autoplay"
+            title="audio-player"
+          />
+        )}
+      </div>
 
-      {error && <p className="passions__error">Could not load tracks — check your Spotify token.</p>}
-
-      {!loading && !error && (
-        <ol className="passions__track-list">
-          {tracks.map((track, i) => (
-            <li key={track.id} className="passions__track">
+      <ol className="passions__track-list">
+        {songs.map((song, i) => {
+          const isPlaying = playingId === song.id
+          return (
+            <li key={song.id} className="passions__track">
               <span className="passions__track-rank">{i + 1}</span>
               <img
-                src={track.albumArt}
-                alt={track.album}
+                src={getSongCover(song)}
+                alt={song.title}
                 className="passions__track-art"
               />
               <div className="passions__track-info">
-                <a
-                  href={track.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="passions__track-name"
-                >
-                  {track.name}
-                </a>
-                <span className="passions__track-artist">
-                  {track.artists.join(', ')}
+                <span className={`passions__track-name ${isPlaying ? 'passions__track-name--playing' : ''}`}>
+                  {song.title}
                 </span>
+                <span className="passions__track-artist">{song.artist}</span>
               </div>
-              {track.previewUrl && (
-                <AudioPreview url={track.previewUrl} />
-              )}
+              <button
+                className={`passions__preview-btn ${isPlaying ? 'passions__preview-btn--playing' : ''}`}
+                onClick={() => toggleSong(song.id)}
+                title={isPlaying ? 'Pause' : 'Play'}
+              >
+                {isPlaying ? <PauseIcon /> : <PlayIcon />}
+              </button>
             </li>
-          ))}
-        </ol>
-      )}
+          )
+        })}
+      </ol>
     </div>
-  )
-}
-
-/* ── 30-second audio preview button ─────────────────────────────── */
-function AudioPreview({ url }: { url: string }) {
-  const [playing, setPlaying] = useState(false)
-  const [audio]  = useState(() => {
-    const a = new Audio(url)
-    a.volume = 0.4
-    return a
-  })
-
-  useEffect(() => {
-    audio.onended = () => setPlaying(false)
-    return () => { audio.pause() }
-  }, [audio])
-
-  function toggle() {
-    if (playing) { audio.pause(); audio.currentTime = 0; setPlaying(false) }
-    else         { audio.play();  setPlaying(true) }
-  }
-
-  return (
-    <button className={`passions__preview-btn ${playing ? 'passions__preview-btn--playing' : ''}`} onClick={toggle} title="Preview">
-      {playing ? <PauseIcon /> : <PlayIcon />}
-    </button>
   )
 }
 
@@ -138,13 +121,14 @@ function ReadwiseWidget() {
               >
                 <blockquote className="passions__highlight-text">"{h.text}"</blockquote>
                 <div className="passions__highlight-meta">
-                  {h.cover_image_url && (
-                    <img
-                      src={h.cover_image_url}
-                      alt={h.title}
-                      className={`passions__highlight-cover ${h.is_book ? 'passions__highlight-cover--book' : 'passions__highlight-cover--logo'}`}
-                    />
-                  )}
+                  {h.cover_image_url
+                    ? <img
+                        src={h.cover_image_url}
+                        alt={h.title}
+                        className={`passions__highlight-cover ${h.is_book ? 'passions__highlight-cover--book' : 'passions__highlight-cover--logo'}`}
+                      />
+                    : <span className="passions__highlight-cover-slot" />
+                  }
                   <div>
                     <p className="passions__highlight-title">{h.title}</p>
                     {h.author && <p className="passions__highlight-author">{h.author}</p>}
@@ -187,7 +171,7 @@ export default function Passions() {
         </div>
 
         <div className="passions__widgets">
-          <SpotifyWidget  />
+          <YoutubeWidget  />
           <ReadwiseWidget />
         </div>
       </div>
@@ -196,10 +180,12 @@ export default function Passions() {
 }
 
 /* ── Icons ───────────────────────────────────────────────────────── */
-function SpotifyIcon() {
+function MusicIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 18V5l12-2v13"/>
+      <circle cx="6" cy="18" r="3"/>
+      <circle cx="18" cy="16" r="3"/>
     </svg>
   )
 }

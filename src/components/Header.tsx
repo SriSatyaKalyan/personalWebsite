@@ -30,15 +30,24 @@ function LogoButton({ onClick }: { onClick: () => void }) {
   const c1 = TAPE[(frame + 1) % TAPE.length]
   const c2 = TAPE[(frame + 2) % TAPE.length]
 
-  // Measure actual slot width (left-edge distance between two adjacent chars)
+  // Measure slot width and re-measure whenever the viewport resizes
   useLayoutEffect(() => {
     const btn = buttonRef.current
     if (!btn) return
-    const spans = btn.querySelectorAll<HTMLSpanElement>('.header__logo-char')
-    if (spans.length >= 2) {
-      const w = spans[1].getBoundingClientRect().left - spans[0].getBoundingClientRect().left
-      setSlotW(w)
+
+    function measure() {
+      const spans = btn!.querySelectorAll<HTMLSpanElement>('.header__logo-char')
+      if (spans.length >= 2) {
+        setSlotW(
+          spans[1].getBoundingClientRect().left - spans[0].getBoundingClientRect().left
+        )
+      }
     }
+
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(document.documentElement)
+    return () => ro.disconnect()
   }, [])
 
   function scheduleNext() {

@@ -1,6 +1,16 @@
 import { useGitHubActivity } from '../hooks/useGitHubActivity'
 import './Work.css'
 
+const LANGUAGES = [
+  'Java', 'TypeScript', 'JavaScript', 'Python'
+]
+const AUTO_TOOLS = [
+  'Playwright', 'Selenium', 'Cucumber', 'Jmeter', 'k6', 'RestAssured'
+]
+const CI_CD_TOOLS = [
+  'Jenkins', 'GitHub Actions', 'Docker'
+]
+
 interface Project {
   name: string
   description: string
@@ -19,7 +29,7 @@ const PROJECTS: Project[] = [
       'A production-grade Selenium + Cucumber BDD framework built to sharpen automation skills and integrate AI tooling. Ships with Jenkins CI pipelines, Grafana monitoring dashboards, and daily test script additions.',
     language: 'Java',
     langColor: '#b07219',
-    tags: ['Java', 'Selenium', 'Cucumber', 'BDD', 'Jenkins', 'Grafana'],
+    tags: ['Selenium', 'Cucumber', 'BDD'],
     url: 'https://github.com/SriSatyaKalyan/seleniumFrmwrk',
     commits: 111,
     highlight: 'End to End Automation',
@@ -30,7 +40,7 @@ const PROJECTS: Project[] = [
       'A clean, minimal Playwright test automation framework built on TypeScript with a Page Object Model architecture. Supports headed, UI, and debug modes with HTML reporting and flexible environment config.',
     language: 'TypeScript',
     langColor: '#3178c6',
-    tags: ['TypeScript', 'Playwright', 'POM', 'E2E', 'HTML Reports'],
+    tags: ['Playwright', 'POM', 'E2E'],
     url: 'https://github.com/SriSatyaKalyan/playwrightFrmwrk',
     commits: 2,
     highlight: 'Agentic AI Framework',
@@ -41,7 +51,7 @@ const PROJECTS: Project[] = [
       'A hands-on k6 performance & load testing learning project. Covers HTTP requests, parameters, thresholds, and scripting patterns — with results piped into Grafana for real-time dashboard visualisation.',
     language: 'JavaScript',
     langColor: '#f1e05a',
-    tags: ['k6', 'JavaScript', 'Load Testing', 'Performance', 'Grafana'],
+    tags: ['k6', 'Load', 'Performance'],
     url: 'https://github.com/SriSatyaKalyan/k6-learning',
     commits: 7,
     highlight: 'Performance Testing',
@@ -139,24 +149,44 @@ export default function Work() {
         {/* GitHub activity */}
         <GitHubActivityWidget />
 
-          {/* <div className="about__cta-row">
-              <a
-                href="https://github.com/SriSatyaKalyan"
-                target="_blank"
-                rel="noreferrer"
-                className="about__cta about__cta--secondary"
-              >
-                <GithubIcon /> GitHub
-              </a>
-              <a
-                href="https://www.linkedin.com/in/kalyan-kallepalli/"
-                target="_blank"
-                rel="noreferrer"
-                className="about__cta about__cta--secondary"
-              >
-                <LinkedInIcon /> LinkedIn
-              </a>
-            </div> */}
+        {/* <div className="about__cta-row">
+            <a
+              href="https://github.com/SriSatyaKalyan"
+              target="_blank"
+              rel="noreferrer"
+              className="about__cta about__cta--secondary"
+            >
+              <GithubIcon /> GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/kalyan-kallepalli/"
+              target="_blank"
+              rel="noreferrer"
+              className="about__cta about__cta--secondary"
+            >
+              <LinkedInIcon /> LinkedIn
+            </a>
+          </div> */}
+
+      {/* Skills */}
+        <div className="about__skills-section">
+          <h2 className="about__section-title">Tech Stack</h2>
+          <div className="about__skills-grid">
+            {LANGUAGES.map(skill => (
+              <span key={skill} className="about__skill-tag">{skill}</span>
+            ))}
+            <div style={{ flexBasis: '100%', height: 0 }} />
+            {AUTO_TOOLS.map(skill => (
+              <span key={skill} className="about__skill-tag">{skill}</span>
+            ))}
+            <div style={{ flexBasis: '100%', height: 0 }} />
+            {CI_CD_TOOLS.map(skill => (
+              <span key={skill} className="about__skill-tag">{skill}</span>
+            ))}
+            <div style={{ flexBasis: '100%', height: 0 }} />
+          </div>
+        </div>
+
       </div>
     </section>
   )

@@ -74,7 +74,38 @@ async function resolveImage(h: {
   return null
 }
 
+const CACHE_KEY = 'readwise_daily_cache'
+
+function todayISO(): string {
+  return new Date().toISOString().slice(0, 10) // 'YYYY-MM-DD'
+}
+
+function readCache(): ReadwiseHighlight[] | null {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY)
+    if (!raw) return null
+    const { date, highlights } = JSON.parse(raw)
+    if (date === todayISO()) return highlights as ReadwiseHighlight[]
+    // Stale — evict immediately
+    localStorage.removeItem(CACHE_KEY)
+  } catch {
+    // ignore corrupt entries
+  }
+  return null
+}
+
+function writeCache(highlights: ReadwiseHighlight[]): void {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ date: todayISO(), highlights }))
+  } catch {
+    // ignore storage quota errors
+  }
+}
+
 export async function getDailyReview(): Promise<ReadwiseHighlight[]> {
+  const cached = readCache()
+  if (cached) return cached
+
   const res = await fetch('https://readwise.io/api/v2/review/', {
     headers: { Authorization: `Token ${TOKEN}` },
   })
@@ -99,5 +130,6 @@ export async function getDailyReview(): Promise<ReadwiseHighlight[]> {
     }))
   )
 
+  writeCache(resolved)
   return resolved
 }
