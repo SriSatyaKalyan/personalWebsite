@@ -216,8 +216,177 @@
 
 /* GitHub / LinkedIn row inside Work page */
 .work__container .about__cta-row {
-  margin-top: 3.5rem;
+  margin-top: 2rem;
 }
+
+/* ── GitHub Activity Widget ────────────────────────────────────── */
+.work__gh-widget {
+  margin-top: 1.5rem;
+  padding: 1.4rem 1.8rem;
+  background: var(--work-surface);
+  border: 1px solid rgba(147, 51, 234, 0.3);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.work__gh-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.work__gh-icon-wrap {
+  display: flex;
+  align-items: center;
+  color: var(--work-accent-light);
+}
+.work__gh-title {
+  font-family: var(--font-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--work-accent-light);
+  flex: 1;
+}
+.work__gh-profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--work-accent-light);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+}
+.work__gh-profile-link:hover { opacity: 1; }
+
+/* Event list */
+.work__gh-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  /* show 4 items then scroll — each item ~54px tall */
+  max-height: calc(4 * 54px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(147, 51, 234, 0.3) transparent;
+}
+.work__gh-list::-webkit-scrollbar { width: 4px; }
+.work__gh-list::-webkit-scrollbar-track { background: transparent; }
+.work__gh-list::-webkit-scrollbar-thumb {
+  background: rgba(147, 51, 234, 0.3);
+  border-radius: 2px;
+}
+
+.work__gh-event {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+  min-height: 54px;
+  box-sizing: border-box;
+}
+.work__gh-event:last-child { border-bottom: none; }
+
+.work__gh-event-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: rgba(147, 51, 234, 0.1);
+  border: 1px solid rgba(147, 51, 234, 0.2);
+  color: var(--work-accent-light);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.work__gh-event-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.work__gh-event-desc {
+  font-size: 0.83rem;
+  color: var(--work-text);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.work__gh-event-desc:hover { color: var(--work-accent-light); }
+
+/* Commit messages */
+.work__gh-commits {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.work__gh-commit-msg {
+  font-size: 0.72rem;
+  color: var(--work-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 0.75rem;
+  position: relative;
+}
+.work__gh-commit-msg::before {
+  content: '·';
+  position: absolute;
+  left: 0.2rem;
+  color: var(--work-accent);
+  opacity: 0.5;
+}
+
+.work__gh-event-time {
+  font-size: 0.72rem;
+  color: var(--work-text-muted);
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
+/* Error */
+.work__gh-error {
+  font-size: 0.82rem;
+  color: var(--work-text-muted);
+  opacity: 0.7;
+  font-style: italic;
+}
+
+/* Skeleton */
+.work__gh-skeleton-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.work__gh-skeleton-row  { display: flex; align-items: center; gap: 0.75rem; }
+.work__gh-skeleton-lines { display: flex; flex-direction: column; gap: 0.35rem; flex: 1; }
+.work__gh-skeleton {
+  border-radius: 6px;
+  background: linear-gradient(90deg,
+    rgba(147,51,234,0.08) 25%,
+    rgba(147,51,234,0.16) 50%,
+    rgba(147,51,234,0.08) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmerWork 1.6s ease infinite;
+}
+@keyframes shimmerWork {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.work__gh-skeleton--icon { width: 26px; height: 26px; border-radius: 6px; flex-shrink: 0; }
+.work__gh-skeleton--text { height: 12px; width: 70%; }
+.work__gh-skeleton--sub  { height: 10px; width: 40%; }
+.work__gh-skeleton--time { height: 10px; width: 48px; flex-shrink: 0; }
 
 /* ── Grafana banner ────────────────────────────────────────────── */
 .work__grafana-banner {

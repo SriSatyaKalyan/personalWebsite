@@ -1,3 +1,4 @@
+import { useGitHubActivity } from '../hooks/useGitHubActivity'
 import './Work.css'
 
 interface Project {
@@ -135,7 +136,10 @@ export default function Work() {
           </a>
         </div>
 
-          <div className="about__cta-row">
+        {/* GitHub activity */}
+        <GitHubActivityWidget />
+
+          {/* <div className="about__cta-row">
               <a
                 href="https://github.com/SriSatyaKalyan"
                 target="_blank"
@@ -152,9 +156,132 @@ export default function Work() {
               >
                 <LinkedInIcon /> LinkedIn
               </a>
-            </div>
+            </div> */}
       </div>
     </section>
+  )
+}
+
+/* ── GitHub Activity Widget ──────────────────────────────────────── */
+function GitHubActivityWidget() {
+  const { events, loading, error } = useGitHubActivity(8)
+
+  return (
+    <div className="work__gh-widget">
+      <div className="work__gh-header">
+        <span className="work__gh-icon-wrap"><GithubIcon /></span>
+        <span className="work__gh-title">Recent Activity</span>
+        <a
+          href="https://github.com/SriSatyaKalyan"
+          target="_blank"
+          rel="noreferrer"
+          className="work__gh-profile-link"
+        >
+          View profile <ArrowIcon />
+        </a>
+      </div>
+
+      {loading && (
+        <div className="work__gh-skeleton-list">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="work__gh-skeleton-row">
+              <div className="work__gh-skeleton work__gh-skeleton--icon" />
+              <div className="work__gh-skeleton-lines">
+                <div className="work__gh-skeleton work__gh-skeleton--text" />
+                <div className="work__gh-skeleton work__gh-skeleton--sub" />
+              </div>
+              <div className="work__gh-skeleton work__gh-skeleton--time" />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {error && <p className="work__gh-error">Could not load GitHub activity.</p>}
+
+      {!loading && !error && (
+        <ul className="work__gh-list">
+          {events.map(event => (
+            <li key={event.id} className="work__gh-event">
+              <span className="work__gh-event-dot">
+                {ghEventIcon(event.type)}
+              </span>
+              <div className="work__gh-event-body">
+                <a
+                  href={event.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="work__gh-event-desc"
+                >
+                  {event.description}
+                </a>
+                {event.commitMessages.length > 0 && (
+                  <ul className="work__gh-commits">
+                    {event.commitMessages.map((msg, i) => (
+                      <li key={i} className="work__gh-commit-msg">{msg}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <span className="work__gh-event-time">{event.createdAt}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+function ghEventIcon(type: string) {
+  switch (type) {
+    case 'PushEvent':
+    case 'CreateEvent':
+    case 'DeleteEvent':
+      return <CommitIcon />
+    case 'PullRequestEvent':
+      return <PullRequestIcon />
+    case 'IssuesEvent':
+    case 'IssueCommentEvent':
+      return <IssueIcon />
+    case 'WatchEvent':
+      return <StarIcon />
+    case 'ForkEvent':
+      return <ForkIcon />
+    default:
+      return <CommitIcon />
+  }
+}
+
+function PullRequestIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/>
+      <path d="M13 6h3a2 2 0 012 2v7"/><line x1="6" y1="9" x2="6" y2="21"/>
+    </svg>
+  )
+}
+
+function IssueIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+  )
+}
+
+function StarIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    </svg>
+  )
+}
+
+function ForkIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="6" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/>
+      <line x1="6" y1="9" x2="6" y2="15"/><path d="M18 9a9 9 0 01-9 9"/>
+    </svg>
   )
 }
 
