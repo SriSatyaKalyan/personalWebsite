@@ -126,7 +126,7 @@ export default function Work() {
         {/* Grafana CTA */}
         <div className="work__grafana-banner">
           <div className="work__grafana-left">
-            <span className="work__grafana-icon"><GrafanaIcon /></span>
+            <span className="work__grafana-icon"><MetricsDashboardIcon /></span>
             <div>
               <p className="work__grafana-title">Live Test Results</p>
               <p className="work__grafana-desc">
@@ -341,11 +341,20 @@ function ArrowIcon() {
   )
 }
 
+/* Pulse / activity line — "live monitoring" */
+function MetricsDashboardIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="2,12 6,12 8,5 11,19 14,9 16,14 18,12 22,12"/>
+    </svg>
+  )
+}
+
+/* Grafana gear-sunburst logo */
 function GrafanaIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20.3 8.6c-.1-.3-.2-.5-.4-.8.1-.7.1-1.4-.1-2.1-.5-1.6-1.7-2.7-3-3.1-.7-.2-1.4-.2-2.1 0-.4-.3-.8-.5-1.3-.6C12.7 1.7 11.8 1.7 11 2c-.7.3-1.3.8-1.7 1.4-.7.1-1.4.4-2 .8-1.3.9-2 2.4-1.9 3.9 0 .3.1.7.2 1-.4.5-.7 1-.9 1.6-.4 1.5 0 3.1 1 4.2.1.3.2.5.4.8-.1.7-.1 1.4.1 2.1.5 1.6 1.7 2.7 3 3.1.7.2 1.4.2 2.1 0 .4.3.8.5 1.3.6.7.3 1.5.3 2.2 0 .7-.3 1.3-.8 1.7-1.4.7-.1 1.4-.4 2-.8 1.3-.9 2-2.4 1.9-3.9 0-.3-.1-.7-.2-1 .4-.5.7-1 .9-1.6.4-1.5 0-3.1-1-4.2zm-8.1 8.1c-2.6 0-4.7-2.1-4.7-4.7s2.1-4.7 4.7-4.7 4.7 2.1 4.7 4.7-2.1 4.7-4.7 4.7z"/>
-      <path d="M12.2 9.5c-1.3 0-2.5 1.1-2.5 2.5s1.1 2.5 2.5 2.5 2.5-1.1 2.5-2.5-1.2-2.5-2.5-2.5zm0 3.8c-.7 0-1.3-.6-1.3-1.3s.6-1.3 1.3-1.3 1.3.6 1.3 1.3-.6 1.3-1.3 1.3z"/>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.92c.04-.26.07-.53.07-.8s-.03-.54-.07-.8l1.73-1.35c.16-.12.2-.34.1-.51l-1.64-2.83c-.1-.17-.32-.23-.49-.17l-2.04.82c-.42-.32-.86-.58-1.33-.78l-.31-2.16C15.56 4.1 15.37 4 15.16 4h-3.28c-.21 0-.4.1-.43.29l-.31 2.16c-.47.2-.91.46-1.33.78l-2.04-.82a.36.36 0 0 0-.49.17L5.64 9.41c-.1.17-.06.39.1.51l1.73 1.35c-.04.26-.07.53-.07.8s.03.54.07.8l-1.73 1.35c-.16.12-.2.34-.1.51l1.64 2.83c.1.17.32.23.49.17l2.04-.82c.42.32.86.58 1.33.78l.31 2.16c.03.19.22.29.43.29h3.28c.21 0 .4-.1.43-.29l.31-2.16c.47-.2.91-.46 1.33-.78l2.04.82c.17.06.39 0 .49-.17l1.64-2.83c.1-.17.06-.39-.1-.51l-1.73-1.35z"/>
     </svg>
   )
 }
