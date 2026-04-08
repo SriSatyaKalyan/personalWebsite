@@ -277,8 +277,11 @@
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
-  flex-shrink: 0;       /* meta row never shrinks */
-  min-height: 48px;     /* consistent height whether or not a cover is present */
+  flex-shrink: 0;
+  min-height: 48px;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--passions-border);
 }
 /* Cover placeholder — always reserves space */
 .passions__highlight-cover-slot {
@@ -334,4 +337,91 @@
 .passions__dot--active {
   background: var(--passions-accent);
   transform: scale(1.3);
+}
+
+/* ── Unsplash full-width widget ──────────────────────────────────── */
+.passions__widget--full {
+  max-height: none;
+  margin-top: 1.5rem;
+}
+
+.passions__unsplash-link {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--passions-accent);
+  opacity: 0.7;
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: opacity var(--transition-fast);
+}
+.passions__unsplash-link:hover { opacity: 1; }
+
+/* Photo strip — horizontal scroll */
+.passions__photo-strip {
+  display: flex;
+  gap: 0.65rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--passions-border) transparent;
+}
+.passions__photo-strip::-webkit-scrollbar       { height: 4px; }
+.passions__photo-strip::-webkit-scrollbar-track  { background: transparent; }
+.passions__photo-strip::-webkit-scrollbar-thumb  { background: var(--passions-border); border-radius: 2px; }
+
+/* Individual photo */
+.passions__photo-item {
+  position: relative;
+  height: 220px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  display: block;
+  text-decoration: none;
+}
+.passions__photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+.passions__photo-item:hover .passions__photo-img {
+  transform: scale(1.04);
+}
+
+/* Hover caption overlay */
+.passions__photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 55%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  display: flex;
+  align-items: flex-end;
+  padding: 0.7rem 0.85rem;
+}
+.passions__photo-item:hover .passions__photo-overlay { opacity: 1; }
+.passions__photo-caption {
+  font-size: 0.75rem;
+  color: #fff;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Skeleton placeholders for photos */
+.passions__photo-skeleton-row {
+  display: flex;
+  gap: 0.65rem;
+  overflow: hidden;
+}
+.passions__photo-skeleton {
+  height: 220px;
+  width: 280px;
+  flex-shrink: 0;
+  border-radius: 10px;
 }

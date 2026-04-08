@@ -2,13 +2,13 @@ import { useGitHubActivity } from '../hooks/useGitHubActivity'
 import './Work.css'
 
 const LANGUAGES = [
-  'Java', 'TypeScript', 'JavaScript', 'Python'
+  'Java', 'JavaScript', 'Python'
 ]
 const AUTO_TOOLS = [
-  'Playwright', 'Selenium', 'Cucumber', 'Jmeter', 'k6', 'RestAssured'
+  'Playwright', 'Selenium', 'Cucumber', 'JMeter', 'k6', 'RestAssured'
 ]
 const CI_CD_TOOLS = [
-  'Jenkins', 'GitHub Actions', 'Docker'
+  'Jenkins', 'GitHub Actions', 'Docker', 'AWS'
 ]
 
 interface Project {

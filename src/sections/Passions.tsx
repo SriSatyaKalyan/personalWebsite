@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useReadwise } from '../hooks/useReadwise'
+import { useUnsplash } from '../hooks/useUnsplash'
 import { songs, getSongCover } from '../data/songs'
 import './Passions.css'
 
@@ -154,6 +155,78 @@ function ReadwiseWidget() {
   )
 }
 
+/* ── Unsplash photography widget ─────────────────────────────────── */
+function UnsplashWidget() {
+  const { photos, loading, error } = useUnsplash()
+  const username = import.meta.env.VITE_UNSPLASH_USERNAME as string | undefined
+
+  return (
+    <div className="passions__widget passions__widget--full">
+      <div className="passions__widget-header">
+        <CameraIcon />
+        <span className="passions__widget-title">My Photography</span>
+        {username && (
+          <a
+            href={`https://unsplash.com/@${username}`}
+            target="_blank"
+            rel="noreferrer"
+            className="passions__unsplash-link"
+          >
+            @{username} on Unsplash ↗
+          </a>
+        )}
+      </div>
+
+      {loading && (
+        <div className="passions__photo-skeleton-row">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="passions__skeleton passions__photo-skeleton" />
+          ))}
+        </div>
+      )}
+
+      {error && (
+        <p className="passions__error">
+          Could not load photos — add <code>VITE_UNSPLASH_ACCESS_KEY</code> and{' '}
+          <code>VITE_UNSPLASH_USERNAME</code> to your <code>.env</code>.
+        </p>
+      )}
+
+      {!loading && !error && (
+        <div className="passions__photo-strip">
+          {photos.map(photo => {
+            const displayW = Math.round(220 * photo.width / photo.height)
+            const caption  = photo.description ?? photo.alt_description ?? ''
+            return (
+              <a
+                key={photo.id}
+                href={photo.links.html}
+                target="_blank"
+                rel="noreferrer"
+                className="passions__photo-item"
+                style={{ width: `${displayW}px` }}
+                title={caption}
+              >
+                <img
+                  src={photo.urls.small}
+                  alt={caption}
+                  className="passions__photo-img"
+                  loading="lazy"
+                />
+                {caption && (
+                  <div className="passions__photo-overlay">
+                    <span className="passions__photo-caption">{caption}</span>
+                  </div>
+                )}
+              </a>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
+
 /* ── Page ────────────────────────────────────────────────────────── */
 export default function Passions() {
   return (
@@ -174,6 +247,8 @@ export default function Passions() {
           <YoutubeWidget  />
           <ReadwiseWidget />
         </div>
+
+        <UnsplashWidget />
       </div>
     </section>
   )
@@ -195,6 +270,15 @@ function ReadwiseIcon() {
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
       <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+    </svg>
+  )
+}
+
+function CameraIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+      <circle cx="12" cy="13" r="4"/>
     </svg>
   )
 }
