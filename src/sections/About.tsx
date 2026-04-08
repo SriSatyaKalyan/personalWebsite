@@ -25,14 +25,14 @@ export default function About() {
         <div className="about__hero">
           <div className="about__badge">Based in the United States</div>
           <h1 className="about__name">
-            Sri Satya<br />
+            {/* Sri Satya<br /> */}
             <span className="about__name-accent">Kalyan Kallepalli</span>
           </h1>
           <p className="about__tagline">"I like breaking things!"</p>
           <p className="about__bio">
-            Software engineer with a passion for quality, automation, and building
-            things that scale. I thrive at the intersection of development and testing —
-            crafting robust frameworks, hunting edge cases, and ensuring every line of
+            Software Testing Engineer with a passion for quality, automation, and building
+            things that scale. I thrive at the intersection of development and testing. I have 
+            crafted robust frameworks, hunted edge cases, and worked towards ensuring every line of
             code ships with confidence.
           </p>
 
@@ -67,7 +67,7 @@ export default function About() {
         </div>
 
         {/* GitHub achievements */}
-        <div className="about__achievements">
+        {/* <div className="about__achievements">
           <h2 className="about__section-title">GitHub Highlights</h2>
           <div className="about__achievements-row">
             {ACHIEVEMENTS.map(a => (
@@ -81,7 +81,7 @@ export default function About() {
               <span className="about__achievement-label">47+ Public Repos</span>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   )
