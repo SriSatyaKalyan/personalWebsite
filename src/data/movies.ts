@@ -18,4 +18,6 @@ export const recentlyWatched: Movie[] = [
 	{ title: "Predator: Badlands", year: 2025, status: "watched" },
 	{ title: "Inception", year: 2010, status: "watched" },
 	{ title: "Over the Garden Wall", year: 2014, status: "watched" },
+	{ title: "Project Hail Mary", year: 2026, status: "watched" },
+	{ title: "The Gray Man", year: 2026, status: "watched" },
 ];
