@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { books, type Book } from "../data/books";
 
-const CACHE_KEY = "book_covers_v3";
+const CACHE_KEY = "book_covers_v5";
 const CACHE_TTL = 12 * 60 * 60 * 1000; // 12 hours — covers rarely change
 
 function bookListHash(bookList: Book[]): string {
@@ -12,10 +12,38 @@ export interface BookWithCover extends Book {
 	openLibraryKey: string | null;
 }
 
+/** Check if an Open Library cover URL is a real image (not the 1×1 placeholder gif). */
+async function isRealCover(url: string): Promise<boolean> {
+	try {
+		const res = await fetch(url, { method: "HEAD" });
+		const size = Number(res.headers.get("content-length") ?? 0);
+		return res.ok && size > 1000;
+	} catch {
+		return false;
+	}
+}
+
+/** Try Google Books API by ISBN; returns a thumbnail URL or null. */
+async function googleBooksCover(isbn: string): Promise<string | null> {
+	try {
+		const res = await fetch(
+			`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&fields=items(volumeInfo/imageLinks)`,
+		);
+		const data = await res.json();
+		const links = data?.items?.[0]?.volumeInfo?.imageLinks;
+		const raw: string | undefined = links?.thumbnail ?? links?.smallThumbnail;
+		if (!raw) return null;
+		// Upgrade to HTTPS and request a larger zoom level
+		return raw.replace("http://", "https://").replace("zoom=1", "zoom=2");
+	} catch {
+		return null;
+	}
+}
+
 async function fetchCover(book: Book): Promise<BookWithCover> {
 	const fields = "title,author_name,cover_i,key";
 
-	async function search(
+	async function olSearch(
 		query: URLSearchParams,
 	): Promise<{ cover_i?: number; key?: string } | null> {
 		const res = await fetch(`https://openlibrary.org/search.json?${query}`);
@@ -24,24 +52,48 @@ async function fetchCover(book: Book): Promise<BookWithCover> {
 		return null;
 	}
 
+	// ── Stage 1: Open Library ISBN cover (instant, most reliable) ────────────
+	if (book.isbn) {
+		const olIsbnUrl = `https://covers.openlibrary.org/b/isbn/${book.isbn}-M.jpg`;
+		if (await isRealCover(olIsbnUrl)) {
+			const isbnData = await fetch(
+				`https://openlibrary.org/isbn/${book.isbn}.json`,
+			)
+				.then((r) => r.json())
+				.catch(() => null);
+			return {
+				...book,
+				coverUrl: olIsbnUrl,
+				openLibraryKey: isbnData?.works?.[0]?.key ?? null,
+			};
+		}
+	}
+
+	// ── Stage 2: Google Books by ISBN (great for newer releases) ─────────────
+	if (book.isbn) {
+		const gbUrl = await googleBooksCover(book.isbn);
+		if (gbUrl) {
+			return { ...book, coverUrl: gbUrl, openLibraryKey: null };
+		}
+	}
+
+	// ── Stage 3 & 4: Open Library title + author search ──────────────────────
 	try {
-		// Stage 1: strict title + author search
 		const strictParams = new URLSearchParams({
 			title: book.title,
 			author: book.author,
 			limit: "1",
 			fields,
 		});
-		let doc = await search(strictParams);
+		let doc = await olSearch(strictParams);
 
-		// Stage 2: fallback broad search (handles colons and special chars in titles)
 		if (!doc?.cover_i) {
 			const broadParams = new URLSearchParams({
 				q: `${book.title} ${book.author}`,
 				limit: "1",
 				fields,
 			});
-			doc = await search(broadParams);
+			doc = await olSearch(broadParams);
 		}
 
 		return {
