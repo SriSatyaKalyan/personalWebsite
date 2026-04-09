@@ -232,12 +232,23 @@ function UnsplashWidget() {
 /* ── Bookshelf widget ────────────────────────────────────────────── */
 function BookshelfWidget() {
   const { reading, read, loading } = useBookCovers()
+  const goodreadsUrl = import.meta.env.VITE_GOODREADS_URL as string | undefined
 
   return (
     <div className="passions__widget passions__widget--full">
       <div className="passions__widget-header">
         <BookIcon />
         <span className="passions__widget-title">My Bookshelf</span>
+        {goodreadsUrl && (
+          <a
+            href={goodreadsUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="passions__unsplash-link"
+          >
+            satya-kalyan on Goodreads ↗
+          </a>
+        )}
       </div>
 
       {loading && (

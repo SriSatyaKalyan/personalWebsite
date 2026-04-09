@@ -30,6 +30,11 @@ export const books: Book[] = [
 	// 	status: "read",
 	// },
 	{
+		title: "Bullshit Jobs: A Theory",
+		author: "David Graeber",
+		status: "read",
+	},
+	{
 		title: "Tomorrow, and Tomorrow, and Tomorrow",
 		author: "Gabrielle Zevin",
 		status: "read",

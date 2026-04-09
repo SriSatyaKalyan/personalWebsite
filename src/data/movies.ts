@@ -9,7 +9,7 @@ export interface Movie {
 // ── Currently watching — update manually ──────────────────────────
 export const currentlyWatching: Movie[] = [
 	{ title: "The Night Agent", year: 2023, status: "watching" },
-	{ title: "The Bear", year: 2022, status: "watching" },
+	{ title: "Arcane", year: 2022, status: "watching" },
 ];
 
 // ── Recently watched — update manually ────────────────────────────
