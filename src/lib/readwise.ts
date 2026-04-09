@@ -77,7 +77,10 @@ async function resolveImage(h: {
 const CACHE_KEY = 'readwise_daily_cache'
 
 function todayISO(): string {
-  return new Date().toISOString().slice(0, 10) // 'YYYY-MM-DD'
+  // Use local date, not UTC, so the cache expires at local midnight
+  const d = new Date()
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 }
 
 function readCache(): ReadwiseHighlight[] | null {

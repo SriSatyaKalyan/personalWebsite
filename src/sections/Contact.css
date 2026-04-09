@@ -1,5 +1,5 @@
 .section--contact {
-  background: var(--contact-bg);
+  background: transparent;
   color: var(--contact-text);
   position: relative;
   overflow: clip;

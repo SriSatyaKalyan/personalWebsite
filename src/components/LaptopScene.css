@@ -1,0 +1,98 @@
+/* ── Wrapper ──────────────────────────────────────────────────── */
+.lscene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 3vw;
+  overflow: hidden;
+  transition: opacity 0.28s ease;
+}
+
+.lscene--out { opacity: 0; }
+
+/* ── SVG sizing + gentle float ───────────────────────────────── */
+.lscene__svg {
+  width: clamp(440px, 58vw, 820px);
+  height: auto;
+  opacity: 0.22;
+  display: block;
+  animation: lscene-float 9s ease-in-out infinite alternate;
+}
+
+@keyframes lscene-float {
+  from { transform: translateY(0);     }
+  to   { transform: translateY(-16px); }
+}
+
+@media (max-width: 900px) {
+  .lscene__svg { width: min(78vw, 500px); opacity: 0.1; }
+}
+
+@media (max-width: 600px) {
+  /* Too small — hide it */
+  .lscene { display: none; }
+}
+
+/* ── Cursor blink (About + Work) ─────────────────────────────── */
+.lscene__cursor {
+  animation: cursor-blink 1.05s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* ── Equalizer bars (Passions) ───────────────────────────────── */
+/* transform-box: fill-box makes "center bottom" relative to each
+   bar's own bounding box — pivot is always the bar's own bottom edge */
+.lscene__eq {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  /* no inline style override anywhere — this is the sole source of truth */
+}
+
+.lscene__eq--0 { animation: eq0 0.75s ease-in-out infinite alternate; }
+.lscene__eq--1 { animation: eq1 1.10s ease-in-out infinite alternate; }
+.lscene__eq--2 { animation: eq2 0.65s ease-in-out infinite alternate; }
+.lscene__eq--3 { animation: eq3 1.30s ease-in-out infinite alternate; }
+.lscene__eq--4 { animation: eq4 0.90s ease-in-out infinite alternate; }
+
+@keyframes eq0 { from { transform: scaleY(1);    } to { transform: scaleY(0.12); } }
+@keyframes eq1 { from { transform: scaleY(0.35); } to { transform: scaleY(1);    } }
+@keyframes eq2 { from { transform: scaleY(0.65); } to { transform: scaleY(0.1);  } }
+@keyframes eq3 { from { transform: scaleY(0.25); } to { transform: scaleY(0.88); } }
+@keyframes eq4 { from { transform: scaleY(0.80); } to { transform: scaleY(0.22); } }
+
+/* ── Floating music notes (Passions) ────────────────────────── */
+.lscene__note    { transform-box: fill-box; }
+.lscene__note--a { animation: note-a 5.0s ease-in-out infinite; }
+.lscene__note--b { animation: note-b 7.0s ease-in-out infinite; }
+.lscene__note--c { animation: note-c 4.2s ease-in-out infinite; }
+
+@keyframes note-a {
+  0%, 100% { transform: translateY(0)    rotate(-8deg); opacity: 0.22; }
+  50%      { transform: translateY(-26px) rotate(6deg);  opacity: 0.1;  }
+}
+@keyframes note-b {
+  0%, 100% { transform: translateY(0)    rotate(5deg);  opacity: 0.16; }
+  50%      { transform: translateY(-18px) rotate(-5deg); opacity: 0.07; }
+}
+@keyframes note-c {
+  0%, 100% { transform: translateY(0);    opacity: 0.12; }
+  50%      { transform: translateY(-32px); opacity: 0.05; }
+}
+
+/* ── REC pulse (Contact) ─────────────────────────────────────── */
+.lscene__rec {
+  animation: rec-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes rec-pulse {
+  0%, 100% { opacity: 1;    }
+  50%      { opacity: 0.16; }
+}

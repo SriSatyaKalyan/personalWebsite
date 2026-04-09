@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import Header from './components/Header'
-import Footer from './components/Footer'
+import Header      from './components/Header'
+import Footer      from './components/Footer'
+import LaptopScene from './components/LaptopScene'
 import About    from './sections/About'
 import Work     from './sections/Work'
 import Passions from './sections/Passions'
@@ -41,6 +42,7 @@ export default function App() {
 
   return (
     <div className={`app app--${active}`}>
+      <LaptopScene section={active} animating={animating} />
       <Header active={active} onNavigate={navigate} />
 
       <main className={`app__main ${animating ? 'app__main--exit' : 'app__main--enter'}`}>

@@ -1,5 +1,5 @@
 .section--about {
-  background: var(--about-bg);
+  background: transparent;
   color: var(--about-text);
   position: relative;
   overflow: clip;

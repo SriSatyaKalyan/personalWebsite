@@ -1,5 +1,5 @@
 .section--passions {
-	background: var(--passions-bg);
+	background: transparent;
 	color: var(--passions-text);
 	position: relative;
 	overflow: clip;
