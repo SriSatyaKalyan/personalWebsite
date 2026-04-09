@@ -1,7 +1,7 @@
 
 import './Footer.css'
 
-type Section = 'about' | 'work' | 'contact'
+type Section = 'about' | 'work' | 'passions' | 'contact'
 
 interface FooterProps {
   active: Section

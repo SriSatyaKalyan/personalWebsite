@@ -1,4 +1,15 @@
+import { useGitHubActivity } from '../hooks/useGitHubActivity'
 import './Work.css'
+
+const LANGUAGES = [
+  'Java', 'JavaScript', 'Python'
+]
+const AUTO_TOOLS = [
+  'Playwright', 'Selenium', 'Cucumber', 'JMeter', 'k6', 'RestAssured'
+]
+const CI_CD_TOOLS = [
+  'Jenkins', 'GitHub Actions', 'Docker', 'AWS'
+]
 
 interface Project {
   name: string
@@ -18,7 +29,7 @@ const PROJECTS: Project[] = [
       'A production-grade Selenium + Cucumber BDD framework built to sharpen automation skills and integrate AI tooling. Ships with Jenkins CI pipelines, Grafana monitoring dashboards, and daily test script additions.',
     language: 'Java',
     langColor: '#b07219',
-    tags: ['Java', 'Selenium', 'Cucumber', 'BDD', 'Jenkins', 'Grafana'],
+    tags: ['Selenium', 'Cucumber', 'BDD'],
     url: 'https://github.com/SriSatyaKalyan/seleniumFrmwrk',
     commits: 111,
     highlight: 'End to End Automation',
@@ -29,7 +40,7 @@ const PROJECTS: Project[] = [
       'A clean, minimal Playwright test automation framework built on TypeScript with a Page Object Model architecture. Supports headed, UI, and debug modes with HTML reporting and flexible environment config.',
     language: 'TypeScript',
     langColor: '#3178c6',
-    tags: ['TypeScript', 'Playwright', 'POM', 'E2E', 'HTML Reports'],
+    tags: ['Playwright', 'POM', 'E2E'],
     url: 'https://github.com/SriSatyaKalyan/playwrightFrmwrk',
     commits: 2,
     highlight: 'Agentic AI Framework',
@@ -40,7 +51,7 @@ const PROJECTS: Project[] = [
       'A hands-on k6 performance & load testing learning project. Covers HTTP requests, parameters, thresholds, and scripting patterns — with results piped into Grafana for real-time dashboard visualisation.',
     language: 'JavaScript',
     langColor: '#f1e05a',
-    tags: ['k6', 'JavaScript', 'Load Testing', 'Performance', 'Grafana'],
+    tags: ['k6', 'Load', 'Performance'],
     url: 'https://github.com/SriSatyaKalyan/k6-learning',
     commits: 7,
     highlight: 'Performance Testing',
@@ -115,7 +126,7 @@ export default function Work() {
         {/* Grafana CTA */}
         <div className="work__grafana-banner">
           <div className="work__grafana-left">
-            <span className="work__grafana-icon"><GrafanaIcon /></span>
+            <span className="work__grafana-icon"><MetricsDashboardIcon /></span>
             <div>
               <p className="work__grafana-title">Live Test Results</p>
               <p className="work__grafana-desc">
@@ -135,26 +146,172 @@ export default function Work() {
           </a>
         </div>
 
-          <div className="about__cta-row">
-              <a
-                href="https://github.com/SriSatyaKalyan"
-                target="_blank"
-                rel="noreferrer"
-                className="about__cta about__cta--secondary"
-              >
-                <GithubIcon /> GitHub
-              </a>
-              <a
-                href="https://www.linkedin.com/in/kalyan-kallepalli/"
-                target="_blank"
-                rel="noreferrer"
-                className="about__cta about__cta--secondary"
-              >
-                <LinkedInIcon /> LinkedIn
-              </a>
-            </div>
+        {/* GitHub activity */}
+        <GitHubActivityWidget />
+
+        {/* <div className="about__cta-row">
+            <a
+              href="https://github.com/SriSatyaKalyan"
+              target="_blank"
+              rel="noreferrer"
+              className="about__cta about__cta--secondary"
+            >
+              <GithubIcon /> GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/kalyan-kallepalli/"
+              target="_blank"
+              rel="noreferrer"
+              className="about__cta about__cta--secondary"
+            >
+              <LinkedInIcon /> LinkedIn
+            </a>
+          </div> */}
+
+      {/* Skills */}
+        <div className="about__skills-section">
+          <h2 className="about__section-title">Tech Stack</h2>
+          <div className="about__skills-grid">
+            {LANGUAGES.map(skill => (
+              <span key={skill} className="about__skill-tag">{skill}</span>
+            ))}
+            <div style={{ flexBasis: '100%', height: 0 }} />
+            {AUTO_TOOLS.map(skill => (
+              <span key={skill} className="about__skill-tag">{skill}</span>
+            ))}
+            <div style={{ flexBasis: '100%', height: 0 }} />
+            {CI_CD_TOOLS.map(skill => (
+              <span key={skill} className="about__skill-tag">{skill}</span>
+            ))}
+            <div style={{ flexBasis: '100%', height: 0 }} />
+          </div>
+        </div>
+
       </div>
     </section>
+  )
+}
+
+/* ── GitHub Activity Widget ──────────────────────────────────────── */
+function GitHubActivityWidget() {
+  const { events, loading, error } = useGitHubActivity(8)
+
+  return (
+    <div className="work__gh-widget">
+      <div className="work__gh-header">
+        <span className="work__gh-icon-wrap"><GithubIcon /></span>
+        <span className="work__gh-title">Recent Activity</span>
+        <a
+          href="https://github.com/SriSatyaKalyan"
+          target="_blank"
+          rel="noreferrer"
+          className="work__gh-profile-link"
+        >
+          View profile <ArrowIcon />
+        </a>
+      </div>
+
+      {loading && (
+        <div className="work__gh-skeleton-list">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="work__gh-skeleton-row">
+              <div className="work__gh-skeleton work__gh-skeleton--icon" />
+              <div className="work__gh-skeleton-lines">
+                <div className="work__gh-skeleton work__gh-skeleton--text" />
+                <div className="work__gh-skeleton work__gh-skeleton--sub" />
+              </div>
+              <div className="work__gh-skeleton work__gh-skeleton--time" />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {error && <p className="work__gh-error">Could not load GitHub activity.</p>}
+
+      {!loading && !error && (
+        <ul className="work__gh-list">
+          {events.map(event => (
+            <li key={event.id} className="work__gh-event">
+              <span className="work__gh-event-dot">
+                {ghEventIcon(event.type)}
+              </span>
+              <div className="work__gh-event-body">
+                <a
+                  href={event.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="work__gh-event-desc"
+                >
+                  {event.description}
+                </a>
+                {event.commitMessages.length > 0 && (
+                  <ul className="work__gh-commits">
+                    {event.commitMessages.map((msg, i) => (
+                      <li key={i} className="work__gh-commit-msg">{msg}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <span className="work__gh-event-time">{event.createdAt}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+function ghEventIcon(type: string) {
+  switch (type) {
+    case 'PushEvent':
+    case 'CreateEvent':
+    case 'DeleteEvent':
+      return <CommitIcon />
+    case 'PullRequestEvent':
+      return <PullRequestIcon />
+    case 'IssuesEvent':
+    case 'IssueCommentEvent':
+      return <IssueIcon />
+    case 'WatchEvent':
+      return <StarIcon />
+    case 'ForkEvent':
+      return <ForkIcon />
+    default:
+      return <CommitIcon />
+  }
+}
+
+function PullRequestIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/>
+      <path d="M13 6h3a2 2 0 012 2v7"/><line x1="6" y1="9" x2="6" y2="21"/>
+    </svg>
+  )
+}
+
+function IssueIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+  )
+}
+
+function StarIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    </svg>
+  )
+}
+
+function ForkIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="6" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/>
+      <line x1="6" y1="9" x2="6" y2="15"/><path d="M18 9a9 9 0 01-9 9"/>
+    </svg>
   )
 }
 
@@ -184,11 +341,53 @@ function ArrowIcon() {
   )
 }
 
+/* Pulse / activity line — "live monitoring" */
+function MetricsDashboardIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="2,12 6,12 8,5 11,19 14,9 16,14 18,12 22,12"/>
+    </svg>
+  )
+}
+
+/* Grafana brand icon — orange gear-sun with dark nautilus spiral */
 function GrafanaIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20.3 8.6c-.1-.3-.2-.5-.4-.8.1-.7.1-1.4-.1-2.1-.5-1.6-1.7-2.7-3-3.1-.7-.2-1.4-.2-2.1 0-.4-.3-.8-.5-1.3-.6C12.7 1.7 11.8 1.7 11 2c-.7.3-1.3.8-1.7 1.4-.7.1-1.4.4-2 .8-1.3.9-2 2.4-1.9 3.9 0 .3.1.7.2 1-.4.5-.7 1-.9 1.6-.4 1.5 0 3.1 1 4.2.1.3.2.5.4.8-.1.7-.1 1.4.1 2.1.5 1.6 1.7 2.7 3 3.1.7.2 1.4.2 2.1 0 .4.3.8.5 1.3.6.7.3 1.5.3 2.2 0 .7-.3 1.3-.8 1.7-1.4.7-.1 1.4-.4 2-.8 1.3-.9 2-2.4 1.9-3.9 0-.3-.1-.7-.2-1 .4-.5.7-1 .9-1.6.4-1.5 0-3.1-1-4.2zm-8.1 8.1c-2.6 0-4.7-2.1-4.7-4.7s2.1-4.7 4.7-4.7 4.7 2.1 4.7 4.7-2.1 4.7-4.7 4.7z"/>
-      <path d="M12.2 9.5c-1.3 0-2.5 1.1-2.5 2.5s1.1 2.5 2.5 2.5 2.5-1.1 2.5-2.5-1.2-2.5-2.5-2.5zm0 3.8c-.7 0-1.3-.6-1.3-1.3s.6-1.3 1.3-1.3 1.3.6 1.3 1.3-.6 1.3-1.3 1.3z"/>
+    <svg width="18" height="18" viewBox="0 0 100 100">
+      <defs>
+        <radialGradient id="gfg" cx="38%" cy="32%" r="72%">
+          <stop offset="0%"   stopColor="#FFD060" />
+          <stop offset="48%"  stopColor="#FF8F00" />
+          <stop offset="100%" stopColor="#E64200" />
+        </radialGradient>
+      </defs>
+      {/* Gear-sun outer shape — 12 smooth bumps */}
+      <path fill="url(#gfg)" d="
+        M50,4  C54,4  57,7  58,10
+        C62,8  66,9  68,13 C72,11 77,13 77,18
+        C81,17 85,20 84,25 C89,26 91,31 89,36
+        C93,38 94,44 91,48 C95,51 94,57 91,60
+        C94,64 92,70 87,71 C87,76 83,79 78,79
+        C77,84 72,86 67,84 C65,89 60,91 55,89
+        C53,93 47,93 45,89 C40,91 35,89 33,84
+        C28,86 23,84 22,79 C17,79 13,76 13,71
+        C8,70 6,64 9,60  C6,57 5,51 9,48
+        C6,44 7,38 11,36 C9,31 11,26 16,25
+        C15,20 19,17 23,18 C23,13 28,11 32,13
+        C34,9  38,8  42,10 C43,7  46,4  50,4 Z
+      " />
+      {/* Nautilus spiral — the Grafana signature mark */}
+      <path
+        d="M50,20 C66,20 77,33 77,50 C77,65 64,76 50,76
+           C32,76 21,61 25,45 C29,31 44,23 57,30
+           C68,36 70,51 63,62 C56,71 43,70 37,62
+           C32,53 36,41 46,38 C54,35 60,42 58,50
+           C57,57 51,59 47,54"
+        fill="none"
+        stroke="#15101e"
+        strokeWidth="5.5"
+        strokeLinecap="round"
+      />
     </svg>
   )
 }

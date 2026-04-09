@@ -7,7 +7,7 @@ const LINKS = [
     handle: '@SriSatyaKalyan',
     url: 'https://github.com/SriSatyaKalyan',
     icon: <GithubIcon />,
-    desc: '47+ repositories',
+    desc: 'Check my work',
   },
   {
     label: 'LinkedIn',

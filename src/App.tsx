@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import About   from './sections/About'
-import Work    from './sections/Work'
-import Contact from './sections/Contact'
+import About    from './sections/About'
+import Work     from './sections/Work'
+import Passions from './sections/Passions'
+import Contact  from './sections/Contact'
 import './App.css'
 
-type Section = 'about' | 'work' | 'contact'
+type Section = 'about' | 'work' | 'passions' | 'contact'
 
 export default function App() {
   const [active, setActive]   = useState<Section>('about')
@@ -17,7 +18,6 @@ export default function App() {
     if (next === active || animating) return
     setAnimating(true)
 
-    // Fade out → swap → fade in
     setTimeout(() => {
       setVisible(next)
       setActive(next)
@@ -29,7 +29,7 @@ export default function App() {
 
   // Keyboard navigation (← →)
   useEffect(() => {
-    const order: Section[] = ['about', 'work', 'contact']
+    const order: Section[] = ['about', 'work', 'passions', 'contact']
     function onKey(e: KeyboardEvent) {
       const idx = order.indexOf(active)
       if (e.key === 'ArrowRight' && idx < order.length - 1) navigate(order[idx + 1])
@@ -44,9 +44,10 @@ export default function App() {
       <Header active={active} onNavigate={navigate} />
 
       <main className={`app__main ${animating ? 'app__main--exit' : 'app__main--enter'}`}>
-        {visible === 'about'   && <About   />}
-        {visible === 'work'    && <Work    />}
-        {visible === 'contact' && <Contact />}
+        {visible === 'about'    && <About    />}
+        {visible === 'work'     && <Work     />}
+        {visible === 'passions' && <Passions />}
+        {visible === 'contact'  && <Contact  />}
       </main>
 
       <Footer active={active} />
